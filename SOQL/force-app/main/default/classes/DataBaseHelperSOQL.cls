@@ -49,4 +49,33 @@ public with sharing class DataBaseHelperSOQL {
             }
            
     }
+
+    public static void GetAccountByLimit(){
+
+        List<Account> lstAccount = [Select Name, BillingCity,AnnualRevenue 
+                                    from Account 
+                                    Limit 10];
+
+        for (Account acc : lstAccount) {
+
+            system.debug('Account Record is ....' + acc);
+            
+            system.debug('*********************************************' );
+        }
+    }
+    public static void GetAccountByAllRows(){
+
+        List<Account> lstAccount = [Select Name, BillingCity,AnnualRevenue 
+                                    from Account 
+                                    ALL ROWS];
+
+        for (Account acc : lstAccount) {
+
+            system.debug('Account Record is ....' + acc);
+                                        
+            system.debug('*********************************************' );
+            
+       }
+
+    }
 }
