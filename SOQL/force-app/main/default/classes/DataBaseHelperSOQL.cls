@@ -35,4 +35,18 @@ public with sharing class DataBaseHelperSOQL {
             
         }
     }
+
+    public static void GetAllCasesMap(){
+
+        Map<Id, Case> mapcases = new Map<Id, Case>([Select Id, Priority,Status,Origin, CaseNumber,Reason,Type from Case]);
+            
+            for(Case cs : mapcases.values()){
+
+                system.debug('case record details is ....' + cs);
+                
+                system.debug('*********************************************' );
+
+            }
+           
+    }
 }
