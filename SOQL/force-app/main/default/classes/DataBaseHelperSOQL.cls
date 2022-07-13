@@ -1,6 +1,7 @@
 /*An apex program to fetch all the account records from the the object present on debug log file */
 
 public with sharing class DataBaseHelperSOQL {
+
     public static void GetAllAccountRecords() {
 /* below is the static SOQL Query*/
        List<Account> lstAccount = [select Id, Name, Rating , Industry ,  Phone , Fax from Account ];
@@ -18,5 +19,20 @@ public with sharing class DataBaseHelperSOQL {
                 system.debug('*********************************************' );
              }
      }
+    }
+
+    public static void GetAllContacts(){
+         
+        for (Contact con : [select Id, Firstname, Lastname, Phone , Fax,Title from Contact]) {
+
+            system.debug('Contact ID is ....' + con.Id);
+            system.debug('Contact First Name is ....' + con.FirstName);
+            system.debug('Contact Last Name is ....' + con.LastName);
+            system.debug('Contact Phone is ....' + con.Phone);
+            system.debug('Contact Fax is ....' + con.Fax);
+            system.debug('Contact Title is ....' + con.Title);
+            system.debug('*********************************************' );
+            
+        }
     }
 }
