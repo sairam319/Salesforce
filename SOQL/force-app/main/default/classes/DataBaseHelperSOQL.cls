@@ -78,4 +78,135 @@ public with sharing class DataBaseHelperSOQL {
        }
 
     }
+    /*Apex code to fetch all account records  from the object and arrange the records in ascending order based on accound name column */
+
+    public static void GetAccountNameOrderBy(){
+
+       List<Account> lstAccount =  [Select Id, Name,AnnualRevenue from Account 
+        ORDER BY Name DESC];
+
+        for (Account acc : lstAccount){
+
+             system.debug('Account Record is... : ' + acc);
+
+             system.debug('*********************************************' );
+        }
+    }
+/*Lead record in descending order based on Annual Revenue*/
+
+    public static void GetLeadRecordsInDesc(){
+
+        List<Lead> lstLead = [Select Id,Name , FirstName , LastName , AnnualRevenue 
+                              from Lead
+                              ORDER BY AnnualRevenue DESC];
+
+        for (Lead ld : lstLead){
+
+            system.debug('Lead Record is .....:' + ld);
+
+            system.debug('*********************************************' );
+
+
+        }
+    }
+
+    public static void GetContactsByOffset(){
+
+        List<contact> lstContacts = [select Name , Phone, Title from Contact
+                                  ORDER BY FirstName
+                                  LIMIT 100
+                                  OFFSET 5];
+         
+        for (Contact con : lstContacts){
+            system.debug('Contacts record is ...: ' + con);
+
+            system.debug('*********************************************' );
+        }
+    }
+
+    public static void GetBankingAccount(){
+
+        List<Account> lstAccount = [select Id, AnnualRevenue , Rating, Industry, Name from Account
+                                   WHERE Industry = 'Biotechnology'];
+
+        system.debug('collection size is.... :' +lstAccount.size() );
+
+        for(Account acc : lstAccount){
+
+            system.debug('Record is ....' +acc);
+
+            system.debug('*********************************************' );
+        }
+
+   }
+/*passing the condiion dynamically at run time by using parameterized procedure*/
+
+   public static void GetAllIndustryRecords(String IndustryName){
+
+    if(IndustryName != 'NULL' && IndustryName != ''){
+     
+        List<Account> lstAccounts = [Select Id,Industry,AccountNumber,AnnualRevenue,Fax
+                                    From Account
+                                    WHERE Industry =:IndustryName];
+
+
+       for(Account acc : lstAccounts){
+
+        system.debug('Account recors is .....: ' +acc);
+
+        system.debug('*********************************************' );
+
+       }
+    } 
+  } 
+
+  public static void GetCasesByStatus(String caseStatus){
+
+    if(caseStatus !=NuLL && caseStatus != ''){
+
+        String CaseQuery = 'Select Id ,Priority , type ,Origin From Case WHERE Status =: caseStatus';
+        List<Case> lstCases =Database.query(CaseQuery);
+
+        for(Case cs : lstCases){
+
+            system.debug('Case Record is ..... :' +cs);
+
+            system.debug('*********************************************' );
+
+        }
+    }
+
+  }
+
+  public static void GetRecordsByCount(){
+
+    //Static SOQL
+      
+    Integer recordCount = [Select COUNT() FROM Lead];
+    system.debug('Lead Record Count is .....:' +recordCount);
+
+    //Dynamic SOQL
+    
+    String LeadsCountQuery = 'Select Count() From Lead';
+    integer LeadCount = Database.countQuery(LeadsCountQuery);
+    system.debug('Record count is....:' +LeadCount);
+  }    
+  
+  public static void GetAccountBySearchText(String searchText){
+
+    if (searchText != 'NULL' && searchtext !='') 
+    {
+       searchText += '%';
+       
+       List<Account> lstAccount = [Select Id,Name,Rating,AnnualRevenue,Fax From Account
+                                   WHERE Name LIKE : searchText ];
+
+    
+        for(Account acc : lstAccount){
+
+            system.debug('Account records is ... : ' + acc);
+        }
+    }
+
+  }
 }
