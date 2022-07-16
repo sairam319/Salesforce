@@ -97,4 +97,21 @@ public static void RestoreDeletedRecords(String EmailSyntax){
        system.debug('Number of DML statments used....: ' +Limits.getDmlStatements());
        system.debug('Number of Rows....: ' +Limits.getDmlRows());
   }
+
+  public Static void MergeRecordsAtAccount(){
+
+    Account targetAccount = [SELECT Id, Rating, Industry,AnnualRevenue,Phone FROM ACCOUNT
+                      WHERE Name = 'Village Van'
+                      LIMIT 1];
+
+     
+    Account sourceAccont = [SELECT Id, Rating, Industry,AnnualRevenue,Phone FROM ACCOUNT
+    WHERE Name = 'Village Van2'
+    LIMIT 1];
+    
+    if(sourceAccont != NULL && targetAccount !=NULL){
+
+        MERGE targetAccount sourceAccont;
+    }
+  }
 }
